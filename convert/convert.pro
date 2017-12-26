@@ -37,3 +37,5 @@ QT += sql widgets
 
 INSTALLS += target
 
+DISTFILES +=
+
