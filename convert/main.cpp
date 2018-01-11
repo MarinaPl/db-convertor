@@ -1,7 +1,5 @@
 #include "mainwindow.h"
 #include <QApplication>
-#include <QtSql>
-
 
 int main(int argc, char *argv[])
 {

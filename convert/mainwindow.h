@@ -2,6 +2,11 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QString>
+#include <database.h>
+#include <QtSql>
+#include <QStandardItem>
+#include <QStandardItemModel>
 
 namespace Ui {
 class MainWindow;
@@ -17,6 +22,19 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    QString file_name_imp; ///путь к файлу импорта
+    QString file_name_exp; ///путь к файлу экспорта
+    QString table_name; ///имя таблицы sql
+
+
+private slots:
+
+    void toSQL ();
+    void toCSV ();
+    void browse ();
+    void new_file ();
+    void exit ();
+
 };
 
 #endif // MAINWINDOW_H

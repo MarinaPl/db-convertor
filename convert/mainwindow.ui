@@ -48,11 +48,11 @@
      </rect>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="toSQL_butt">
     <property name="geometry">
      <rect>
       <x>450</x>
-      <y>290</y>
+      <y>170</y>
       <width>121</width>
       <height>41</height>
      </rect>
@@ -61,11 +61,11 @@
      <string>To SQL</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_2">
+   <widget class="QPushButton" name="tocsv_butt">
     <property name="geometry">
      <rect>
       <x>450</x>
-      <y>340</y>
+      <y>220</y>
       <width>121</width>
       <height>41</height>
      </rect>
@@ -74,7 +74,7 @@
      <string>To CSV</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_3">
+   <widget class="QPushButton" name="brows_butt">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -87,7 +87,7 @@
      <string>Browse file</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_4">
+   <widget class="QPushButton" name="create_butt">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -98,6 +98,19 @@
     </property>
     <property name="text">
      <string>Create new file</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="exit_butt">
+    <property name="geometry">
+     <rect>
+      <x>450</x>
+      <y>350</y>
+      <width>121</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Exit</string>
     </property>
    </widget>
   </widget>

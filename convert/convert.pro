@@ -24,18 +24,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-        dialog.cpp
+        database.cpp \
+    csvsql.cpp \
+    sqlcsv.cpp
 
 HEADERS += \
         mainwindow.h \
-        database.h \
-        dialog.h
+        database.h
 
 FORMS += \
         mainwindow.ui
-QT += sql widgets
-
-INSTALLS += target
-
-DISTFILES +=
 
