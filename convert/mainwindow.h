@@ -5,8 +5,6 @@
 #include <QString>
 #include <database.h>
 #include <QtSql>
-#include <QStandardItem>
-#include <QStandardItemModel>
 
 namespace Ui {
 class MainWindow;
@@ -29,10 +27,9 @@ private:
 
 private slots:
 
-    void toSQL ();
-    void toCSV ();
+   // void toSQL ();
+   // void toCSV ();
     void browse ();
-    void new_file ();
     void exit ();
 
 };

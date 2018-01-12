@@ -77,27 +77,14 @@
    <widget class="QPushButton" name="brows_butt">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>40</y>
+      <x>20</x>
+      <y>80</y>
       <width>161</width>
       <height>51</height>
      </rect>
     </property>
     <property name="text">
      <string>Browse file</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="create_butt">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>100</y>
-      <width>161</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Create new file</string>
     </property>
    </widget>
    <widget class="QPushButton" name="exit_butt">
