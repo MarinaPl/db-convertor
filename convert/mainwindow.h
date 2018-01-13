@@ -27,9 +27,10 @@ private:
 
 private slots:
 
-   // void toSQL ();
-   // void toCSV ();
-    void browse ();
+    void toSQL ();
+    void toCSV ();
+    void browse_csv ();
+    void browse_sql ();
     void exit ();
 
 };

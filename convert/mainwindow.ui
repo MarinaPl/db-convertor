@@ -78,13 +78,13 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>80</y>
+      <y>30</y>
       <width>161</width>
       <height>51</height>
      </rect>
     </property>
     <property name="text">
-     <string>Browse file</string>
+     <string>Browse file CSV</string>
     </property>
    </widget>
    <widget class="QPushButton" name="exit_butt">
@@ -98,6 +98,19 @@
     </property>
     <property name="text">
      <string>Exit</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="brows_butt_2">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>100</y>
+      <width>161</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Browse file SQL</string>
     </property>
    </widget>
   </widget>
