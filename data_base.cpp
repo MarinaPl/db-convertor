@@ -49,7 +49,7 @@ void Data_Base::clean_data()
     type_data.clear();
     cols=0;rows=0;
 }
-QString get_elem(QString elem){
+QString check_elem(QString elem){
     elem.replace("\"","\"\""); // по документации если внутри есть кавычка то -> ""
     if (elem.contains('"'))    //если есть символы ; / \ << (это тоже кавычка) , /n то оборачиваем весь элемент в одинарные кавычки
         return "\""+elem+"\"";
@@ -67,35 +67,35 @@ QString get_elem(QString elem){
 }
 void Data_Base::write_csv(QString path_output)
 {
-        if(table_data.empty())
-             {qDebug()<<"No data ";}
-        QFile file(path_output);
-        if (file.open(QIODevice::WriteOnly))
+    if(table_data.empty())
+    {qDebug()<<"No data ";}
+    QFile file(path_output);
+    if (file.open(QIODevice::WriteOnly))
+    {
+        QTextStream text_stream(&file);  //запись в файл -- переопределяем поток вывода
+        QStringList str;
+        for(int k=0;k<cols;k++){
+            str<<check_elem(header_data [k]);
+        }
+        text_stream<<str.join(';')+"\n";
+        for (int i=0;i<rows;i++)
         {
-            QTextStream text_stream(&file);  //запись в файл -- переопределяем поток вывода
-            QStringList str;
-            for(int k=0;k<cols;k++){
-                str<<get_elem(header_data [k]);
+            str.clear();
+            for (int j =0;j<cols;j++){
+                str<<check_elem(table_data[i][j]);
             }
             text_stream<<str.join(';')+"\n";
-            for (int i=0;i<rows;i++)
-            {
-                str.clear();
-                for (int j =0;j<cols;j++){
-                    str<<get_elem(table_data[i][j]);
-                }
-                text_stream<<str.join(';')+"\n";
-            }
-
-            file.close();
         }
-        else qDebug()<<"error open file to write";
+
+        file.close();
     }
+    else qDebug()<<"error open file to write";
+}
 
 // проверка на кавычки и их удаление 1й и последний символ, если кавычки внутри заменить на одинарные
 //для каждого элемента
 
-QString trimCSV(QString item){
+QString check_34(QString item){
     if((!item.isEmpty())&&(item[0] == QChar(34)))
         item.remove(0,1);
     if((!item.isEmpty())&&(!item.isNull())&(item[item.count()-1] == QChar(34)))
@@ -109,78 +109,75 @@ void Data_Base::read_csv(QString path_input)
 {
     emit beginResetModel(); //говорит модели о том, что будем менять данные
     clean_data();
-     QFile file(path_input);
-     if (!file.open(QIODevice::ReadOnly))
-     {
-         qDebug()<<"error from open file"<<endl;;
-         return;
-     }
+    QFile file(path_input);
+    if (!file.open(QIODevice::ReadOnly))
+    {
+        qDebug()<<"error from open file"<<endl;;
+        return;
+    }
 
-     QTextStream in(&file);     //поток чтения
-     bool Quote = false;    //кавычка - проверка
-     QList<QString> ItemList;
-     QVector<QString> ItemVector;   //объвили вектор
-     QString item = "";         //пустая строка
+    QTextStream in(&file);     //поток чтения
+    bool Quote = false;    //кавычка - проверка
+    QList<QString> ItemList;
+    QVector<QString> ItemVector;   //объвили вектор
+    QString item = "";         //пустая строка
 
-     //читаем заголовки
-     QString line(in.readLine().simplified()); // без лишних пробелов
-     int count = line.count();  //символы в строке - колво, в цикле посимвольно идем
-     for (int i = 0;i<count;i++){
-         if (line[i] == QChar(34)){             // если кавычка
-             Quote = (Quote) ? false : true;    //меняем флаг если й=правда тогда й=ложь если й=ложь то й=правда
-         }
-         if ((Quote != true)&(line[i] == ";")){
-             header_data.append(trimCSV(item));  //функция выше с кавычками
-             cols++;
-             item = "";
-         }
-         else
-         {
-             item += line[i];
-         }
-         if ((count-1 == i)&(Quote != true)){
-             item = trimCSV(item);
-             if (item != ""){
-                 header_data.append(item);
-                 cols++;}
-             item = "";
-         }
-     }
+    //читаем заголовки
+    QString line(in.readLine().simplified()); // без лишних пробелов
+    int count = line.count();  //символы в строке - колво, в цикле посимвольно идем
+    for (int i = 0;i<count;i++){
+        if (line[i] == QChar(34)){             // если кавычка
+            Quote = (Quote) ? false : true;    //меняем флаг если й=правда тогда й=ложь если й=ложь то й=правда
+        }
+        if ((Quote != true)&(line[i] == ";")){
+            header_data.append(check_34(item));  //функция выше с кавычками
+            cols++;
+            item = "";
+        }
+        else
+        {
+            item += line[i];
+        }
+        if ((count-1 == i)&(Quote != true)){
+            item = check_34(item);
+            if (item != ""){
+                header_data.append(item);
+                cols++;}
+            item = "";
+        }
+    }
 
-     {
-         while(!in.atEnd()){
-             QString line(in.readLine().simplified());
-             int count = line.count();
-             rows++;
-             for (int i = 0;i<count;i++){
-                 if (line[i] == QChar(34)){
-                     Quote = (Quote) ? false : true;
-                 }
-                 if ((Quote != true)&(line[i] == ";")){
-                     ItemVector.append(trimCSV(item));
-                     item = "";
-                 }
-                 else
-                 {
-                     item += line[i];
-                 }
+    {
+        while(!in.atEnd()){
+            QString line(in.readLine().simplified());
+            int count = line.count();
+            rows++;
+            for (int i = 0;i<count;i++){
+                if (line[i] == QChar(34)){
+                    Quote = (Quote) ? false : true;
+                }
+                if ((Quote != true)&(line[i] == ";")){
+                    ItemVector.append(check_34(item));
+                    item = "";
+                }
+                else
+                {
+                    item += line[i];
+                }
 
-                 if ((count-1 == i)&(Quote != true)){
-                     item = trimCSV(item);
-                     if (item != "")
-                         ItemVector.append(item);
-                        table_data.append(ItemVector);
-                     //qDebug()<<ItemVector;
-                     ItemVector.clear();
-                     item = "";
-                 }
-             }
+                if ((count-1 == i)&(Quote != true)){
+                    item = check_34(item);
+                    if (item != "")
+                        ItemVector.append(item);
+                    table_data.append(ItemVector);
+                    ItemVector.clear();
+                    item = "";
+                }
+            }
 
-         }
-     }
-     file.close();
-     emit endResetModel();
-     //rows--;
-
+        }
+    }
+    file.close();
+    emit endResetModel();
 
 }
