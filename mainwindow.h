@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <data_base.h>
+
 namespace Ui {
 class MainWindow;
 }
@@ -20,7 +21,8 @@ private:
 
     QString file_name_imp; ///путь к файлу импорта
     QString file_name_exp; ///путь к файлу экспорта
-    QString table_name; ///имя таблицы sql
+    QString table_name ; ///имя таблицы sql
+
 public: Data_Base table1;
 
 private slots:

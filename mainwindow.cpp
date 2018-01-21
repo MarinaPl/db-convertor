@@ -29,7 +29,7 @@ void MainWindow::exit()
 
 void MainWindow::browse_csv()
 {
-    QString filename=QFileDialog::getOpenFileName(this, tr("Open File"),"","");
+    QString filename=QFileDialog::getOpenFileName(this, tr("Open File"),"","*.csv");;
     if(!filename.isEmpty())
     {
         QFile file(filename);
@@ -54,7 +54,7 @@ void MainWindow::browse_csv()
 
 void MainWindow::browse_sql()
 {
-    QString filename=QFileDialog::getOpenFileName(this, tr("Open File"),"","");
+    QString filename=QFileDialog::getOpenFileName(this, tr("Open File"),"","*.sqlite");;
     if(!filename.isEmpty())
     {
         QFile file(filename);
@@ -87,7 +87,7 @@ void MainWindow :: toSQL()
 
 void MainWindow :: toCSV()
 {
-    QString filename=QFileDialog::getSaveFileName(this,"Save",QDir::currentPath(),"Fiels ( *.csv *.*);;All files (*.*)");
+    QString filename=QFileDialog::getSaveFileName(this,"Save",QDir::currentPath()," ;;*.csv");
     if (filename!=""){
         if(!filename.contains(".csv"))
             filename+=".csv";

@@ -41,7 +41,7 @@
     <property name="geometry">
      <rect>
       <x>440</x>
-      <y>190</y>
+      <y>140</y>
       <width>121</width>
       <height>41</height>
      </rect>
@@ -80,7 +80,7 @@
     <property name="geometry">
      <rect>
       <x>440</x>
-      <y>140</y>
+      <y>190</y>
       <width>121</width>
       <height>41</height>
      </rect>
@@ -89,11 +89,11 @@
      <string>To SQL</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit">
+   <widget class="QLineEdit" name="lineEdit_tab_name_out">
     <property name="geometry">
      <rect>
-      <x>320</x>
-      <y>100</y>
+      <x>440</x>
+      <y>260</y>
       <width>113</width>
       <height>20</height>
      </rect>
@@ -102,8 +102,8 @@
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>210</x>
-      <y>100</y>
+      <x>440</x>
+      <y>240</y>
       <width>81</width>
       <height>16</height>
      </rect>

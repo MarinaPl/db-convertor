@@ -1,6 +1,5 @@
 #include "data_base.h"
 
-
 Data_Base::Data_Base(QObject *parent): QAbstractTableModel(parent)
 {
 
@@ -213,6 +212,7 @@ void Data_Base::read_sql(QString path_input)
 
     QSqlDatabase cur_db = QSqlDatabase::addDatabase("QSQLITE", "cur_db");
     cur_db.setDatabaseName(path_input);
+    cur_db.open();
 
     if (!cur_db.open())
     {
@@ -222,14 +222,12 @@ void Data_Base::read_sql(QString path_input)
 
     //читаем заголовки и потом остальные данные
     QStringList tab_names = cur_db.tables(); //все таблицы нашей бд. тк по условию таблица одна, то рассматриваем только 1 элемент
-    QString  tab_name = tab_names[0];
+    tab_name = tab_names[0];
     //qDebug()<< tab_name;
     QSqlRecord rec = cur_db.record(tab_name); //запись бд
 
     //по столбцам записали заголовки
     cols = rec.count();
-    qDebug()<< cols;
-
     for(int i = 0; i < cols; i++)
     {
            header_data.append(rec.fieldName(i));
@@ -237,26 +235,22 @@ void Data_Base::read_sql(QString path_input)
         //qDebug() << rec.fieldName(i);
     }
     //записываем остальные данные и считаем строки
-    rows = 1;   //тк заголовки точно есть
+    rows = 0;
+    QSqlQuery query ("SELECT * FROM " + tab_name, cur_db); //запрос и навигация по бд
 
-    QSqlQuery query; //запрос и навигация по бд
-    query.exec("SELECT * FROM " + tab_name); //вот тут становится плохо
-
-  /*
     while (query.next())
     {
         QVector<QString> cur_raw;   //пустая "строка" таб. для прочтения след "строки"
         for(int i = 0; i < cols; i++)
         {
-            cur_raw.append(rec.fieldName(i));
+            cur_raw.append(query.value(i).toString());    //для согласования типов to string - без него было плохо
         }
 
         table_data.append(cur_raw);
-        qDebug() << cur_raw;
+      //  qDebug() << cur_raw;
         rows++;
     }
 
-    */
     cur_db.close();
     emit endResetModel();
 }

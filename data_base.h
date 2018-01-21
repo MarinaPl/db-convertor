@@ -20,11 +20,13 @@
 class Data_Base: public QAbstractTableModel
 {
     Q_OBJECT
+
 public:
 
     Data_Base(QObject *parent= nullptr);
     QVector<QString> header_data;
     QVector<QVector<QString>> table_data;
+    QString tab_name ; ///имя таблицы sql
     QVector<QString> type_data;
     int rows=0,cols=0;
     ///
