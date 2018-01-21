@@ -13,6 +13,8 @@
 #include <QItemSelectionModel>
 #include <QVector>
 #include <QString>
+#include <QtSql>
+#include <QSqlRecord>
 
 
 class Data_Base: public QAbstractTableModel
@@ -35,6 +37,15 @@ public:
     /// \param path_output Параметр на входе: путь к результирующему файлу
     ///
     void write_csv(QString path_output);
+    ///
+    /// \brief read_sql Функция, которая читает данные из файла
+    /// \param path_input Параметр на входе: путь к исходному файлу
+    ///
+    void read_sql(QString path_input);
+    ///
+
+
+
 
     ///
     /// \brief clean_data Функция для очистки данных - чтобы можно было использовать приложение несколько раз

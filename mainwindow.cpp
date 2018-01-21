@@ -42,7 +42,6 @@ void MainWindow::browse_csv()
     }
 
     file_name_imp=filename;
-
     if(file_name_imp!="")
     {
         table1.read_csv(filename);
@@ -55,6 +54,27 @@ void MainWindow::browse_csv()
 
 void MainWindow::browse_sql()
 {
+    QString filename=QFileDialog::getOpenFileName(this, tr("Open File"),"","");
+    if(!filename.isEmpty())
+    {
+        QFile file(filename);
+        if (!file.open(QIODevice::ReadOnly))
+        {
+            QMessageBox::critical(this,tr("Error"),tr("Could not open file"));
+            return;
+        }
+        file.close();
+    }
+
+    file_name_imp=filename;
+    if(file_name_imp!="")
+    {
+        table1.read_sql(filename);
+    }
+    else  QMessageBox::critical(this,tr("Error"),tr("Not a file name to open"));
+
+    ui->tableView->resizeColumnsToContents();
+    ui->tableView->resizeRowsToContents();
 
 }
 

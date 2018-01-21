@@ -35,10 +35,14 @@ int Data_Base::columnCount(const QModelIndex &parent) const
 }
 
 QVariant Data_Base::headerData(int section, Qt::Orientation orientation, int role) const
-{ if (role == Qt::DisplayRole)
-    { if (orientation == Qt::Horizontal)
-        { return header_data[section];
-        } }
+{
+    if (role == Qt::DisplayRole)
+    {
+        if (orientation == Qt::Horizontal)
+        {
+            return header_data[section];
+        }
+    }
     return QAbstractTableModel::headerData(section, orientation, role);
 }
 
@@ -47,7 +51,7 @@ void Data_Base::clean_data()
     table_data.clear();
     header_data.clear();
     type_data.clear();
-    cols=0;rows=0;
+    cols=0; rows=0;
 }
 QString check_elem(QString elem){
     elem.replace("\"","\"\""); // по документации если внутри есть кавычка то -> ""
@@ -181,3 +185,83 @@ void Data_Base::read_csv(QString path_input)
     emit endResetModel();
 
 }
+
+//аналогичные функции чтения и записи для sql
+/*
+void check_type()
+{
+
+    QVariant::typeToName( elem.type());
+
+   //но elem должен быть Qvariant
+
+}
+*/
+
+
+void Data_Base::read_sql(QString path_input)
+{
+    emit beginResetModel(); //говорит модели о том, что будем менять данные
+    clean_data();
+
+    QFile file(path_input);
+    if (!file.open(QIODevice::ReadOnly))
+    {
+        qDebug()<<"Sorry, error from open file";
+        return;
+    }
+
+    QSqlDatabase cur_db = QSqlDatabase::addDatabase("QSQLITE", "cur_db");
+    cur_db.setDatabaseName(path_input);
+
+    if (!cur_db.open())
+    {
+        qDebug() << "Sorry, error from open database";
+        return;
+    }
+
+    //читаем заголовки и потом остальные данные
+    QStringList tab_names = cur_db.tables(); //все таблицы нашей бд. тк по условию таблица одна, то рассматриваем только 1 элемент
+    QString  tab_name = tab_names[0];
+    //qDebug()<< tab_name;
+    QSqlRecord rec = cur_db.record(tab_name); //запись бд
+
+    //по столбцам записали заголовки
+    cols = rec.count();
+    qDebug()<< cols;
+
+    for(int i = 0; i < cols; i++)
+    {
+           header_data.append(rec.fieldName(i));
+        //   qDebug()<< header_data [i];
+        //qDebug() << rec.fieldName(i);
+    }
+    //записываем остальные данные и считаем строки
+    rows = 1;   //тк заголовки точно есть
+
+    QSqlQuery query; //запрос и навигация по бд
+    query.exec("SELECT * FROM " + tab_name); //вот тут становится плохо
+
+  /*
+    while (query.next())
+    {
+        QVector<QString> cur_raw;   //пустая "строка" таб. для прочтения след "строки"
+        for(int i = 0; i < cols; i++)
+        {
+            cur_raw.append(rec.fieldName(i));
+        }
+
+        table_data.append(cur_raw);
+        qDebug() << cur_raw;
+        rows++;
+    }
+
+    */
+    cur_db.close();
+    emit endResetModel();
+}
+
+
+
+
+
